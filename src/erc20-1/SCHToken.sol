@@ -7,7 +7,6 @@ contract SCHToken is ERC20 {
     address private _owner;
 
     constructor() ERC20("SCHToken", "SCH") {
-        _mint(msg.sender, 100000);
         _owner = msg.sender;
     }
 
