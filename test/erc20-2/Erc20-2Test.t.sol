@@ -19,9 +19,9 @@ contract TokensDepositoryTest is Test {
     address WETH_HOLDER = 0x741AA7CFB2c7bF2A1E7D4dA2e3Df6a56cA4131F3;
 
     uint256 constant INITIAL_AMOUNT = 1 ether;
-    uint256 constant AAVE_TRANSFER_AMOUNT = 15 ether;
-    uint256 constant UNI_TRANSFER_AMOUNT = 5321 ether;
-    uint256 constant WETH_TRANSFER_AMOUNT = 33 ether;
+    uint256 constant AAVE_AMOUNT = 15 ether;
+    uint256 constant UNI_AMOUNT = 5321 ether;
+    uint256 constant WETH_AMOUNT = 33 ether;
 
     uint256 initialAAVEBalance;
     uint256 initialUNIBalance;
@@ -53,43 +53,43 @@ contract TokensDepositoryTest is Test {
         // TODO: Deposit Tokens
         // 15 AAVE from AAVE Holder
         vm.startPrank(AAVE_HOLDER);
-        IERC20(AAVE_ADDRESS).approve(address(depository), AAVE_TRANSFER_AMOUNT);
-        depository.deposit(AAVE_ADDRESS, AAVE_TRANSFER_AMOUNT);
+        IERC20(AAVE_ADDRESS).approve(address(depository), AAVE_AMOUNT);
+        depository.deposit(AAVE_ADDRESS, AAVE_AMOUNT);
         vm.stopPrank();
 
         // 5231 UNI from UNI Holder
         vm.startPrank(UNI_HOLDER);
-        IERC20(UNI_ADDRESS).approve(address(depository), UNI_TRANSFER_AMOUNT);
-        depository.deposit(UNI_ADDRESS, UNI_TRANSFER_AMOUNT);
+        IERC20(UNI_ADDRESS).approve(address(depository), UNI_AMOUNT);
+        depository.deposit(UNI_ADDRESS, UNI_AMOUNT);
         vm.stopPrank();
 
         // 33 WETH from WETH Holder
         vm.startPrank(WETH_HOLDER);
-        IERC20(WETH_ADDRESS).approve(address(depository), WETH_TRANSFER_AMOUNT);
-        depository.deposit(WETH_ADDRESS, WETH_TRANSFER_AMOUNT);
+        IERC20(WETH_ADDRESS).approve(address(depository), WETH_AMOUNT);
+        depository.deposit(WETH_ADDRESS, WETH_AMOUNT);
         vm.stopPrank();
 
         // TODO: Check that the tokens were sucessfuly transfered to the depository
-        assertEq(IERC20(AAVE_ADDRESS).balanceOf(address(depository)), AAVE_TRANSFER_AMOUNT);
-        assertEq(IERC20(UNI_ADDRESS).balanceOf(address(depository)), UNI_TRANSFER_AMOUNT);
-        assertEq(IERC20(WETH_ADDRESS).balanceOf(address(depository)), WETH_TRANSFER_AMOUNT);
+        assertEq(IERC20(AAVE_ADDRESS).balanceOf(address(depository)), AAVE_AMOUNT);
+        assertEq(IERC20(UNI_ADDRESS).balanceOf(address(depository)), UNI_AMOUNT);
+        assertEq(IERC20(WETH_ADDRESS).balanceOf(address(depository)), WETH_AMOUNT);
 
         // TODO: Check that the right amount of receipt tokens were minted
-        assertEq(IERC20(rAave).balanceOf(AAVE_HOLDER), AAVE_TRANSFER_AMOUNT);
-        assertEq(IERC20(rUni).balanceOf(UNI_HOLDER), UNI_TRANSFER_AMOUNT);
-        assertEq(IERC20(rWeth).balanceOf(WETH_HOLDER), WETH_TRANSFER_AMOUNT);
+        assertEq(IERC20(rAave).balanceOf(AAVE_HOLDER), AAVE_AMOUNT);
+        assertEq(IERC20(rUni).balanceOf(UNI_HOLDER), UNI_AMOUNT);
+        assertEq(IERC20(rWeth).balanceOf(WETH_HOLDER), WETH_AMOUNT);
         // }
 
         // function testWithdraws() public {
         // TODO: Withdraw ALL the Tokens
         vm.prank(AAVE_HOLDER);
-        depository.withdraw(AAVE_ADDRESS, AAVE_TRANSFER_AMOUNT);
+        depository.withdraw(AAVE_ADDRESS, AAVE_AMOUNT);
 
         vm.prank(UNI_HOLDER);
-        depository.withdraw(UNI_ADDRESS, UNI_TRANSFER_AMOUNT);
+        depository.withdraw(UNI_ADDRESS, UNI_AMOUNT);
 
         vm.prank(WETH_HOLDER);
-        depository.withdraw(WETH_ADDRESS, WETH_TRANSFER_AMOUNT);
+        depository.withdraw(WETH_ADDRESS, WETH_AMOUNT);
 
         // TODO: Check that the right amount of tokens were withdrawn (depositors got back the assets)
         assertEq(IERC20(AAVE_ADDRESS).balanceOf(AAVE_HOLDER), initialAAVEBalance);
