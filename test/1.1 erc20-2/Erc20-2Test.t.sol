@@ -3,8 +3,8 @@
 pragma solidity ^0.8.24;
 
 import {Test, console} from "forge-std/Test.sol";
-import {rToken} from "../../src/erc20-2/rToken.sol";
-import {TokensDepository} from "../../src/erc20-2/TokensDepository.sol";
+import {rToken} from "../../src/1.1 erc20-2/rToken.sol";
+import {TokensDepository} from "../../src/1.1 erc20-2/TokensDepository.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract TokensDepositoryTest is Test {

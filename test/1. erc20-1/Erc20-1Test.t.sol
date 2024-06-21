@@ -2,7 +2,7 @@
 pragma solidity ^0.8.24;
 
 import {Test, console} from "forge-std/Test.sol";
-import {SCHToken} from "../../src/erc20-1/SCHToken.sol";
+import {SCHToken} from "../../src/1. erc20-1/SCHToken.sol";
 
 contract TestSCHToken is Test {
     SCHToken token;
