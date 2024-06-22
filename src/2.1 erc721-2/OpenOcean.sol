@@ -5,11 +5,11 @@ pragma solidity ^0.8.24;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 contract OpenOcean {
-    uint256 constant maxPrice = 100 ether;
+    uint256 public constant MAX_PRICE = 100 ether;
 
     struct Item {
         uint256 itemId;
-        address collectionContract;
+        address collection;
         uint256 tokenId;
         uint256 price;
         address payable seller;
@@ -17,13 +17,13 @@ contract OpenOcean {
     }
 
     uint256 public itemsCounter;
-    mapping(uint256 itemId => Item) listedItems;
+    mapping(uint256 itemId => Item) public listedItems;
 
     // constructor() {}
 
     function listItem(address _collection, uint256 _tokenId, uint256 _price) public {
         require(_collection != address(0), "Invalid collection contract");
-        require(_price > 0 && _price <= maxPrice, "Invalid price");
+        require(_price > 0 && _price <= MAX_PRICE, "Invalid price");
 
         itemsCounter += 1;
         IERC721(_collection).transferFrom(msg.sender, address(this), _tokenId);
@@ -31,14 +31,14 @@ contract OpenOcean {
     }
 
     function purchase(uint256 _itemId) external payable {
-        require(listedItems[_itemId].itemId == _itemId, "Item not found");
+        require(_itemId != 0 && _itemId <= itemsCounter, "Incorrect itemId");
         require(listedItems[_itemId].isSold == false, "Item already sold");
-        require(msg.value >= listedItems[_itemId].price, "Insufficient price");
+        require(msg.value == listedItems[_itemId].price, "Insufficient price");
 
         listedItems[_itemId].isSold = true;
-        IERC721(listedItems[_itemId].collectionContract).transferFrom(
-            address(this), msg.sender, listedItems[_itemId].tokenId
-        );
+
+        IERC721(listedItems[_itemId].collection).transferFrom(address(this), msg.sender, listedItems[_itemId].tokenId);
+
         (bool success,) = listedItems[_itemId].seller.call{value: msg.value}("");
         require(success, "Transfer failed");
     }
