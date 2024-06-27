@@ -3,8 +3,8 @@
 pragma solidity ^0.8.24;
 
 import {Test, console} from "forge-std/Test.sol";
-import {Game} from "../../src/3. Randomness Vulnerabilities/Game.sol";
-import {Attacker} from "../../src/3. Randomness Vulnerabilities/Attack.sol";
+import {Game} from "../../src/3. Randomness Vulnerabilities-1/Game.sol";
+import {Attacker} from "../../src/3. Randomness Vulnerabilities-1/Attack.sol";
 
 contract TestGame is Test {
     Game gameContract;

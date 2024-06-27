@@ -3,8 +3,8 @@
 pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
-import {OpenOcean} from "../../src/2.1 erc721-2/OpenOcean.sol";
-import {DummyERC721} from "../../src/2.1 erc721-2/utils/DummyERC721.sol";
+import {OpenOcean} from "../../src/2. erc721-2/OpenOcean.sol";
+import {DummyERC721} from "../../src/2. erc721-2/utils/DummyERC721.sol";
 
 contract TestERC721Two is Test {
     OpenOcean marketPlace;
