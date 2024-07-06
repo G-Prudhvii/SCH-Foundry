@@ -8,10 +8,7 @@ contract DummyERC721 is ERC721, Ownable {
     uint256 maxSupply;
     uint256 public currentSupply = 0;
 
-    constructor(string memory _name, string memory _symbol, uint256 _maxSupply)
-        ERC721(_name, _symbol)
-        Ownable(msg.sender)
-    {
+    constructor(string memory _name, string memory _symbol, uint256 _maxSupply) ERC721(_name, _symbol) Ownable() {
         maxSupply = _maxSupply;
     }
 

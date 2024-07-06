@@ -5,9 +5,11 @@ pragma solidity ^0.8.24;
 import {Test, console} from "forge-std/Test.sol";
 import {SimpleSmartWallet} from "../../src/5. Phishing Attacks/SimpleSmartWallet.sol";
 import {MaliciousCharity} from "../../src/5. Phishing Attacks/MaliciousCharity.sol";
+// import {SimpleSmartWalletSecured} from "../../src/5. Phishing Attacks/Solution/SimpleSmartWalletSecured.sol";
 
 contract TestSimpleSmartWallet is Test {
     SimpleSmartWallet wallet;
+    // SimpleSmartWalletSecured wallet; // For Secured wallet testing
     MaliciousCharity charity;
 
     address fundManager = makeAddr("manager");
@@ -22,6 +24,7 @@ contract TestSimpleSmartWallet is Test {
         // Deploy smart wallet and deposit ETH
         vm.prank(fundManager);
         wallet = new SimpleSmartWallet{value: HEDGE_FUND_AMOUNT}();
+        // wallet = new SimpleSmartWalletSecured{value: HEDGE_FUND_AMOUNT}(); // For Secured wallet testing
 
         assertEq(address(wallet).balance, HEDGE_FUND_AMOUNT);
 
