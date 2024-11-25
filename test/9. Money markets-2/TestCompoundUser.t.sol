@@ -93,6 +93,6 @@ contract TestCompoundUser is Test {
         // TODO: Validate that the majority of the cUSDC tokens (99.9%) were burned, and the contract deosn't own them
         // NOTE: There are still some cUSDC tokens left, since we accumulated positive interest
         uint256 cUSDCBalanceAfter = cUsdc.balanceOf(address(user));
-        assertLt(cUSDCBalanceAfter, cUSDCBalanceBefore);
+        assertLt(cUSDCBalanceAfter, cUSDCBalanceBefore / 1000);
     }
 }
