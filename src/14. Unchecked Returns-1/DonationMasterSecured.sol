@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+contract DonationMaster {
+    uint256 public donationsNo = 1;
+
+    struct Donation {
+        uint256 id;
+        address to;
+        uint256 goal;
+        uint256 donated;
+    }
+
+    mapping(uint256 => Donation) public donations;
+
+    constructor() {}
+
+    function newDonation(address _to, uint256 goal) external {
+        require(_to != address(0), "Wrong _to");
+        require(goal >= 0, "Wrong _goal");
+
+        Donation memory donation = Donation(donationsNo, _to, goal, 0);
+        donations[donationsNo] = donation;
+        donationsNo += 1;
+    }
+
+    function donate(uint256 _donationId) external payable {
+        require(_donationId < donationsNo, "Donation doesn't exist");
+
+        Donation memory donation = donations[_donationId];
+        require(msg.value + donation.donated <= donation.goal, "Goal reached, donation is closed");
+
+        donation.donated += msg.value;
+        donations[_donationId] = donation;
+
+        (bool success,) = payable(donation.to).call{value: msg.value}("");
+        require(success, "Transfer failed");
+    }
+}
