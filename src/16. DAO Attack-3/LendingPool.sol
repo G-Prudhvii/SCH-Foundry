@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "./IDAOToken.sol";
+import "./IFlashLoanReceiver.sol";
+
+contract LendingPool is ReentrancyGuard {
+    using Address for address;
+
+    IDAOToken public token;
+
+    constructor(address tokenAddress) {
+        token = IDAOToken(tokenAddress);
+    }
+
+    function flashLoan(uint256 borrowAmount) external nonReentrant {
+        // Before checks
+        require(msg.sender.isContract(), "Must be a contract");
+        uint256 balanceBefore = token.balanceOf(address(this));
+        require(balanceBefore >= borrowAmount, "Not enough liquidity");
+
+        token.transfer(msg.sender, borrowAmount);
+        IFlashLoanReceiver(msg.sender).callBack(borrowAmount);
+
+        // After checks
+        uint256 balanceAfter = token.balanceOf(address(this));
+        require(balanceAfter >= balanceBefore, "Need to pay the loan back");
+    }
+}
